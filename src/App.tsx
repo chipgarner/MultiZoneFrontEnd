@@ -60,7 +60,7 @@ function App() {
 
         try {
             const response = JSON.parse(event.data);
-            // console.debug(response)
+            console.debug(response)
             if (response.thermocouple_data) {
                 setThermocoupleDataZ1(thermocoupleDataZ1 =>
                     [...thermocoupleDataZ1, response.thermocouple_data[0]]);
@@ -80,7 +80,6 @@ function App() {
             if (response.profile_names) {
                 setProfileNames(ProfileNames => [ProfileNames, ...response.profile_names]);
                 console.debug(profileNames)
-                console.debug(response.profile_names)
             }
 
             if (response.status)

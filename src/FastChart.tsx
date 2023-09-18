@@ -64,6 +64,7 @@ function FastChart(tempData: tempDataProps,
                     max={100}
                     step={1}
                     onChange={changePower}
+                    value={power}
                 />
             )
         } else {

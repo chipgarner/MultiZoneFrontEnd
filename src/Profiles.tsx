@@ -14,56 +14,56 @@ export function Profiles(kilnStatus: statusProps, profileData: profileDataProps,
 
     return (
         <div
-        sx={{
-            bg: 'background',
-            padding: '50px',
-        }}>
+            sx={{
+                bg: 'background',
+                padding: '50px',
+            }}>
             <Grid gap={1} columns={[1, 2, 4]} margin={1}>
-            <Select onChange={handleProfileSelected}
-                    bg={'primary'}
-                    sx={{
-                        fontSize: ['10px', '30px', '30px'],
-                        fontWeight: 'bold',
-                        width: '300px',
-                        marginLeft: '2px',
-                        marginRight: '2px',
-                        '&:disabled': {
-                            bg: 'muted',
-                            '&:hover': {
+                <Button onClick={closeModal} sx={{width: '300px'}}>Done</Button>
+                <Select onChange={handleProfileSelected}
+                        bg={'primary'}
+                        sx={{
+                            fontSize: ['10px', '30px', '30px'],
+                            fontWeight: 'bold',
+                            width: '300px',
+                            marginLeft: '2px',
+                            marginRight: '2px',
+                            '&:disabled': {
                                 bg: 'muted',
-                                border: 'none',
+                                '&:hover': {
+                                    bg: 'muted',
+                                    border: 'none',
+                                },
+                                '&:active': {
+                                    bg: 'muted'
+                                }
+                            },
+                            '&:hover': {
+                                bg: 'secondary',
+                                border: '3px solid',
+                                borderColor: 'primary'
                             },
                             '&:active': {
-                                bg: 'muted'
+                                bg: 'red',
                             }
-                        },
-                        '&:hover': {
-                            bg: 'secondary',
-                            border: '3px solid',
-                            borderColor: 'primary'
-                        },
-                        '&:active': {
-                            bg: 'red',
-                        }
-                    }}>
-                <option value="value" selected>Select Profile</option>
-                {profile_names.slice(1).map((category) => (
-                    <option>
-                        {category.name}
-                    </option>
-                ))
-                }
-            </Select>
+                        }}>
+                    <option value="value" selected>Select Profile</option>
+                    {profile_names.slice(1).map((category) => (
+                        <option>
+                            {category.name}
+                        </option>
+                    ))
+                    }
+                </Select>
 
-            <Button sx={{width: '300px'}}>Edit</Button>
-            <Button sx={{width: '300px'}}>New</Button>
-            <Button onClick={closeModal} sx={{width: '300px'}}>Done</Button>
+                <Button sx={{width: '300px'}}>Edit</Button>
+                <Button sx={{width: '300px'}}>New</Button>
             </Grid>
 
             <Grid gap={1} columns={[1, 1, 2]} margin={1}>
 
-            {ProfileChart(profileData, "whatever")}
-            {ProfileTable(profileData)}
+                {ProfileChart(profileData, "whatever")}
+                {ProfileTable(profileData)}
             </Grid>
 
         </div>

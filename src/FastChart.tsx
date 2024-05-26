@@ -14,6 +14,7 @@ import {changePowerForZone} from './BackendCalls'
 
 function LastXMinutes(minutes: number, tempData: tempDataProps) {
     const length = tempData.length
+    console.log(length)
     if (length > 9) {
         const delta_ms = minutes * 60 * 1000
         const time_step = (tempData[length - 1].time_ms - tempData[length - 10].time_ms) / 10

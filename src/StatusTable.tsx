@@ -45,6 +45,25 @@ export function initProps() {
     return trp
 }
 
+function slope_units(numstr: number | string) {
+    if (typeof (numstr) === 'number') {
+        // @ts-ignore
+        numstr = Math.round(numstr * 3600);
+        // Degrees per hour
+    }
+    return numstr
+}
+
+
+function curvature_units(numstr: number | string) {
+    if (typeof (numstr) === 'number') {
+        // @ts-ignore
+        numstr = Math.round(numstr * 3600 * 60);
+        // Degrees per hour per minute (sorry)
+    }
+    return numstr
+}
+
 function round_or_string(numstr: number | string) {
     if (typeof (numstr) === 'number') {
         // @ts-ignore
@@ -87,9 +106,9 @@ function displayZones(zonesStatus: tempRatesProps) {
         if (numZones === 1) {
             rows.push(
                 <tr>
-                    <td>{labelledNumber('Temperture \u00b0C', Math.round(zonesStatus.zones_status_array[i].temperature))}</td>
-                    <td>{labelledNumber('Slope \u00b0C/hr', round_or_string(zonesStatus.zones_status_array[i].slope))}</td>
-                    <td>{labelledNumber('Std deviation', zonesStatus.zones_status_array[i].pstdev)}</td>
+                    <td>{labelledNumber('Temperature \u00b0C', Math.round(zonesStatus.zones_status_array[i].temperature))}</td>
+                    <td>{labelledNumber('Slope \u00b0C/hr', slope_units(zonesStatus.zones_status_array[i].slope))}</td>
+                    <td>{labelledNumber('Whatever \u00b0W', curvature_units(zonesStatus.zones_status_array[i].pstdev))}</td>
                     <td>{labelledNumber('Heat factor %', Math.round(zonesStatus.zones_status_array[i].heat_factor * 100))}</td>
                 </tr>
             )
@@ -98,9 +117,9 @@ function displayZones(zonesStatus: tempRatesProps) {
             rows.push(
                 <tr>
                     <td>{zoneLabels[i]}</td>
-                    <td>{labelledNumber('Temperture \u00b0C', Math.round(zonesStatus.zones_status_array[i].temperature))}</td>
-                    <td>{labelledNumber('Slope \u00b0C/hr', round_or_string(zonesStatus.zones_status_array[i].slope))}</td>
-                    <td>{labelledNumber('Std deviation', zonesStatus.zones_status_array[i].pstdev)}</td>
+                    <td>{labelledNumber('Temperature \u00b0C', Math.round(zonesStatus.zones_status_array[i].temperature))}</td>
+                    <td>{labelledNumber('Slope \u00b0C/hr', slope_units(zonesStatus.zones_status_array[i].slope))}</td>
+                    <td>{labelledNumber('Whatever \u00b0W', zonesStatus.zones_status_array[i].pstdev)}</td>
                     <td>{labelledNumber('Heat factor %', Math.round(zonesStatus.zones_status_array[i].heat_factor * 100))}</td>
                 </tr>
             )

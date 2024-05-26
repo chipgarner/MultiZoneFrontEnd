@@ -4,19 +4,23 @@ import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {MainChart} from "./MainChart";
 import {LastNchart} from "./LastNchart"
 import FastChart from "./FastChart";
+import {Curvechart} from "./Curvechart"
 import {StatusTable, tempRatesProps, initProps, initStatusProps} from "./StatusTable"
 import {Controls} from "./Controls"
 import {ThemeProvider, Grid, useColorMode} from 'theme-ui'
 import {theme} from './TheTheme'
 import {tempDataProps, thermocoupleDataProps, profileDataProps, profileNamesProps, statusProps} from './dataHandler'
 
-// Example:  const WS_URL = 'ws://127.0.0.1:8081/status';
-// This is needed if the server is running on a different machine than the browser.
-let server: string = window.location.href
+//Use this if the browser server and python server are on the same machine.
+let server: string = window.location.href  // The browser React server
 server = server.split(":")[1]
 server = server.split(":")[0]
 console.log(server)
 const WS_URL = 'ws:' + server + ':8081/status';
+
+// Use this if the python server is running on a different machine than the browser React server.
+//const WS_URL = 'ws://192.168.1.91:8081/status'; // The websocket server running in python
+
 console.log(WS_URL)
 
 let color_mode = 'light'
@@ -52,6 +56,10 @@ function App() {
     const [smoothedZone3, setSmoothedZone3] = useState<tempDataProps>([]);
     const [smoothedZone4, setSmoothedZone4] = useState<tempDataProps>([]);
 
+    const [curve1, setCurve1] = useState<profileDataProps>([]);
+    const [curve2, setCurve2] = useState<profileDataProps>([]);
+    const [curve3, setCurve3] = useState<profileDataProps>([]);
+
     const [profileData, setProfile] = useState<profileDataProps>([]);
     const [profileUpdate, updateProfile] = useState<profileDataProps>([]);
     const [profileNames, setProfileNames] = useState<profileNamesProps>([]);
@@ -86,7 +94,14 @@ function App() {
                 setStatus(status => response.status)
 
             if (response.zones_status_array) {
-                setZonesStatus(zonesStatus => response)
+                console.log(response)
+                setZonesStatus(zonesStatus => response);
+
+                if (response.zones_status_array[0].curve_data !== null) {
+                    setCurve1(curve1 => [curve1, ...response.zones_status_array[0].curve_data])
+                    setCurve2(curve2 => [curve2, ...response.zones_status_array[1].curve_data])
+                    setCurve3(curve3 => [curve3, ...response.zones_status_array[2].curve_data])
+                }
                 setSmoothedZone1(smoothedZone1 => [...smoothedZone1, response.zones_status_array[0]]);
                 setSmoothedZone2(smoothedZone2 => [...smoothedZone2, response.zones_status_array[1]]);
                 setSmoothedZone3(smoothedZone3 => [...smoothedZone3, response.zones_status_array[2]]);
@@ -105,8 +120,8 @@ function App() {
 
                 {StatusTable(status, zonesStatus)}
                 <Grid gap={1} columns={[1, 2, 2]}>
-                {LastNchart(profileUpdate, smoothedZone1, smoothedZone2, smoothedZone3, smoothedZone4, GridFillColor(), -300)}
-                {LastNchart(profileUpdate, smoothedZone1, smoothedZone2, smoothedZone3, smoothedZone4, GridFillColor(), -15)}
+                    {LastNchart(profileUpdate, smoothedZone1, smoothedZone2, smoothedZone3, smoothedZone4, GridFillColor(), -300)}
+                    {LastNchart(profileUpdate, smoothedZone1, smoothedZone2, smoothedZone3, smoothedZone4, GridFillColor(), -15)}
                 </Grid>
             </Grid>
             <Grid gap={1} columns={[1, 1, 2]} margin={1}>
@@ -118,7 +133,11 @@ function App() {
                     {FastChart(thermocoupleDataZ4, smoothedZone4, 4, status.Manual, GridFillColor())}
                 </Grid>
             </Grid>
-                <ColorModeButton/>
+            <ColorModeButton/>
+            <Grid gap={1} columns={[1, 1, 1]}>
+                {Curvechart(profileUpdate, curve1, curve2, curve3, smoothedZone1, smoothedZone2, smoothedZone3, smoothedZone4, GridFillColor(), -30)}
+            </Grid>
+
         </ThemeProvider>
     );
 }

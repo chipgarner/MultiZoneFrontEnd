@@ -19,7 +19,7 @@ export function Profiles(kilnStatus: statusProps, profileData: profileDataProps,
                 padding: '50px',
             }}>
             <Grid gap={1} columns={[1, 2, 4]} margin={1}>
-                <Button onClick={closeModal} sx={{width: '300px'}}>Done</Button>
+                <Button onClick={closeModal} sx={{width: '300px'}}>Close</Button>
                 <Select onChange={handleProfileSelected}
                         bg={'primary'}
                         sx={{

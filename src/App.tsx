@@ -16,10 +16,10 @@ let server: string = window.location.href  // The browser React server
 server = server.split(":")[1]
 server = server.split(":")[0]
 console.log(server)
-const WS_URL = 'ws:' + server + ':8081/status';
+// const WS_URL = 'ws:' + server + ':8081/status';
 
 // Use this if the python server is running on a different machine than the browser React server.
-//const WS_URL = 'ws://192.168.1.91:8081/status'; // The websocket server running in python
+const WS_URL = 'ws://192.168.1.102:8081/status'; // The websocket server running in python
 
 console.log(WS_URL)
 

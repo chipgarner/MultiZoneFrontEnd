@@ -12,14 +12,14 @@ import {theme} from './TheTheme'
 import {tempDataProps, thermocoupleDataProps, profileDataProps, profileNamesProps, statusProps} from './dataHandler'
 
 //Use this if the browser server and python server are on the same machine.
-// let server: string = window.location.href  // The browser React server
-// server = server.split(":")[1]
-// server = server.split(":")[0]
-// console.log(server)
-// const WS_URL = 'ws:' + server + ':8081/status';
+let server: string = window.location.href  // The browser React server
+server = server.split(":")[1]
+server = server.split(":")[0]
+console.log(server)
+const WS_URL = 'ws:' + server + ':8081/status';
 
 // Use this if the python server is running on a different machine than the browser React server.
-const WS_URL = 'ws://192.168.0.102:8081/status'; // The websocket server running in python
+// const WS_URL = 'ws://192.168.86.30:8081/status'; // The websocket server running in python
 
 console.log(WS_URL)
 
@@ -99,8 +99,7 @@ function App() {
 
                 if (response.zones_status_array[0].curve_data !== null) {
                     setCurve1(curve1 => [curve1, ...response.zones_status_array[0].curve_data])
-                    setCurve2(curve2 => [curve2, ...response.zones_status_array[1].curve_data])
-                    setCurve3(curve3 => [curve3, ...response.zones_status_array[2].curve_data])
+                    // setCurve2(curve2 => [curve2, ...response.zones_status_array[1].curve_data])
                 }
                 setSmoothedZone1(smoothedZone1 => [...smoothedZone1, response.zones_status_array[0]]);
                 setSmoothedZone2(smoothedZone2 => [...smoothedZone2, response.zones_status_array[1]]);
